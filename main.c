@@ -1,47 +1,51 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void shortenarray(int image[]);
+int checkequality(int image[]);
+int numar;
+int max;
 int main(){
     
     FILE *img1;
-    img1 = fopen("/Users/kb00709/Desktop/PracticeVers1.1.run", "r");
+    img1 = fopen("/Users/kb00709/Desktop/Balloon.run", "r");
     int greylevelvalue;
-    int image[600];
-    int i;
+    int image[1600];
+    int i=0;
     int j;
     int count=0;
     int a;
     int t;
-    int val=0, sum=0;
-    int z=3;
-    int arraylen=0;
-    int b=0;
-    int cnt=0;
+
     
     if (img1 == NULL){
         printf("Error Reading File\n");
         exit (0);
     }
     
-    for (i = 0; i < 25; i++){
+    for (i = 0; i < 1600; i++){
+
         fscanf(img1, "%d,", &image[i] );
+        if(image[i]==0 && image[i+1]==0)
+            i=1600;
+        max++;
     }
+            
     
-    for (i = 0; i < 25; i++){
-        arraylen++;
+   
+    for (i = 0; i < max; i++){
+        
         printf("%d", image[i]);
-    }
-    printf("\n array length is %d \n", arraylen);
+        }
     
+
     greylevelvalue=image[2];
     printf("enter the number of grey values");
     scanf("%d", &t);
     //write code to check t is integer
     
     
-    for (i = 3; i<24; i+=2){
-    
-    //printf("buna");
+    for (i = 3; i<max; i+=2){
     if (image[i]<t){
         a=image[i+1];
                 for(j=1; j<a+1; j++){
@@ -69,44 +73,54 @@ int main(){
                 }
 }
     
-   /* for (i = 1; i <12; i++){
-    while(image[z]==image[z+2]) {
-      //  printf("img i %d", image[z]);
-      // printf("img i+1 %d", image[z+2]);
-       // sum=image[z+1]+image[z+3];
-       // val=image[z];
-       // printf("sum is %d", sum);
-       // printf(" val is %d sum is %d", val, sum);
-        break;
-    }
-        z+=2;
-        
-        
-    }*/
-     printf("\n");
-    for(i=0; i<25; i++){
-        printf("%d", image[i]);
-    }
-    
-    for(i=3; i<arraylen+1; i+=2){
-        while(image[i]==image[i+2]){
-            image[i+1]=image[i+1]+image[i+3];
-            
-            for(b=i+2; b<arraylen+1; b++){
-                image[b]=image[b+2];
-                image[b+1]=image[b+3];
-                
-                cnt=cnt+2;
-            }
-            
-        }
-            
+  
+    for(i=0; i<max; i++){
+        printf("%d ", image[i]);
     }
     printf("\n");
-    for(b=0; b<arraylen-cnt+1; b++){
-        printf("alo");
-        printf("%d", image[b]);
+    shortenarray(image);
+   if(checkequality(image)==1){
+        shortenarray(image);
+        
     }
+    
+ 
     
     }
 
+void shortenarray(int image[]) {
+    
+    int i, f, arraylen=0, numar=0, b=0;
+
+    for(i = 3; i < max; i+=2){
+        if(image[i] == image[i+2]){
+            image[i+1] = image[i+1] + image[i+3];
+            for(int f = i+2; f < arraylen-1; f++ ){
+                image[f] = image[f+2];
+                image[f+1]=image[f+3];
+              max = max-1;
+            }
+            //max = max-1;
+            
+        }
+    }
+  
+    for(b=0; b<max; b++){
+        
+        printf("%d ", image[b]);
+    }
+    printf("\n");
+      printf("\n");
+}
+
+int checkequality(int image[]){
+    int i, check=0;
+    
+    for (i=1; i<max; i+=2){
+        if(image[i] == image[i+2])
+            check=1;
+        else check=0;
+    }
+    if(check==1) return 1;
+    else return 0;
+}
